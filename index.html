@@ -28,6 +28,7 @@
             left: 0;
             width: 100%;
             height: 100vh;
+            background: linear-gradient(180deg, #001a33 0%, #003d5c 50%, #004d73 100%);
             z-index: 1000;
             transition: opacity 0.8s ease, visibility 0.8s ease;
         }
@@ -46,6 +47,7 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
+            pointer-events: none;
             z-index: 1;
         }
 
@@ -57,11 +59,11 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(45deg, 
-                #001a33 0%, 
-                #003d5c 25%, 
-                #004d73 50%, 
-                #003d5c 75%, 
-                #001a33 100%);
+                #003d5c 0%, 
+                #004d73 25%, 
+                #005a8a 50%, 
+                #004d73 75%, 
+                #003d5c 100%);
             background-size: 400% 400%;
             animation: gradientShift 15s ease infinite;
         }
@@ -91,11 +93,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(180deg, 
-                rgba(0, 26, 51, 0.3) 0%, 
-                rgba(0, 61, 92, 0.4) 50%, 
-                rgba(0, 77, 115, 0.3) 100%);
-            z-index: 2;
+            background: rgba(0, 26, 51, 0.2);
         }
 
         .bubbles {
@@ -104,7 +102,7 @@
             height: 100%;
             overflow: hidden;
             pointer-events: none;
-            z-index: 3;
+            z-index: 2;
         }
 
         .bubble {
@@ -127,7 +125,7 @@
             max-width: 1200px;
             margin: 50px auto;
             padding: 20px;
-            z-index: 4;
+            z-index: 3;
         }
 
         .porthole {
@@ -141,6 +139,50 @@
             padding: 60px;
             position: relative;
             overflow: hidden;
+        }
+
+        /* Video inside porthole */
+        .porthole-video-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            border-radius: 20px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .porthole-video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                #003d5c 0%, 
+                #004d73 50%, 
+                #005a8a 100%);
+            background-size: 200% 200%;
+            animation: underwaterMove 10s ease infinite;
+        }
+
+        @keyframes underwaterMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .porthole-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
         }
 
         .porthole::before {
@@ -158,6 +200,8 @@
                 rgba(0, 200, 255, 0.03) 6px
             );
             animation: scan 3s linear infinite;
+            z-index: 3;
+            pointer-events: none;
         }
 
         @keyframes scan {
@@ -172,6 +216,7 @@
             background: radial-gradient(circle, #5a8a9e 0%, #2d5f6e 100%);
             border-radius: 50%;
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+            z-index: 4;
         }
 
         .rivet-tl { top: 30px; left: 30px; }
@@ -180,15 +225,10 @@
         .rivet-br { bottom: 30px; right: 30px; }
 
         .content-box {
-            background: rgba(10, 40, 60, 0.85);
-            border: 3px solid #00d9ff;
-            border-radius: 20px;
             padding: 40px;
             text-align: center;
-            box-shadow: 
-                0 0 30px rgba(0, 217, 255, 0.3),
-                inset 0 0 20px rgba(0, 217, 255, 0.1);
-            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 2;
         }
 
         .logo {
@@ -202,6 +242,7 @@
             font-weight: bold;
             font-size: 18px;
             box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+            z-index: 4;
         }
 
         .season-badge {
@@ -217,6 +258,7 @@
             text-align: center;
             font-size: 14px;
             backdrop-filter: blur(10px);
+            z-index: 4;
         }
 
         h1 {
@@ -289,7 +331,7 @@
             height: 100%;
             background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 26, 51, 0.4) 100%);
             pointer-events: none;
-            z-index: 3;
+            z-index: 2;
         }
 
         .light-ray {
@@ -303,7 +345,7 @@
                 transparent 50%);
             transform: translateX(-50%) rotate(10deg);
             animation: sway 8s ease-in-out infinite;
-            z-index: 3;
+            z-index: 2;
         }
 
         @keyframes sway {
@@ -469,35 +511,32 @@
 <body>
     <!-- Landing Section -->
     <div class="landing-section" id="landingSection">
-        <!-- Video Background Container -->
-        <div class="video-container">
-            <!-- Placeholder animated background (replace with actual video) -->
-            <div class="video-placeholder"></div>
-            
-            <!-- Uncomment this when you have a video file -->
-            
-            <video class="background-video" autoplay loop muted playsinline>
-                <source src="underwater-scene.mp4" type="video/mp4">
-            </video>
-            
-            
-            <!-- Video overlay (tints the video) -->
-            <div class="video-overlay"></div>
-        </div>
-
+        <!-- Background elements (NOT video - video is inside porthole) -->
         <div class="bubbles" id="bubbles"></div>
         <div class="underwater-effect"></div>
         <div class="light-ray"></div>
         
         <div class="submarine-frame">
             <div class="porthole">
+                <!-- Video inside the porthole -->
+                <div class="porthole-video-container">
+                    <div class="porthole-video-placeholder"></div>
+                    
+                    <!-- Video effect: PLACEHOLDER -->
+                    <video class="porthole-video" autoplay loop muted playsinline>
+                        <source src="underwater-scene.mp4" type="video/mp4">
+                    </video>
+                </div>
+
                 <div class="rivets rivet-tl"></div>
                 <div class="rivets rivet-tr"></div>
                 <div class="rivets rivet-bl"></div>
                 <div class="rivets rivet-br"></div>
                 
+                <!--
                 <div class="logo">UT 🤘</div>
                 <div class="season-badge">OFFICIAL<br>2026<br>HACKATHON</div>
+                -->
                 
                 <div class="content-box">
                     <h1>University of Texas at Austin Presents</h1>
