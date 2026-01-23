@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hook 'em Hacks 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            overflow-x: hidden;
+            background: #0a0a0a;
+        }
+
+        body.no-scroll {
+            overflow: hidden;
+        }
+
+        /* Landing Section - Submarine Theme with Video */
+        .landing-section {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1000;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .landing-section.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Video Background Container */
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        /* Video placeholder with animated gradient */
+        .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, 
+                #001a33 0%, 
+                #003d5c 25%, 
+                #004d73 50%, 
+                #003d5c 75%, 
+                #001a33 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .background-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        /* Video overlay to darken/tint */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, 
+                rgba(0, 26, 51, 0.3) 0%, 
+                rgba(0, 61, 92, 0.4) 50%, 
+                rgba(0, 77, 115, 0.3) 100%);
+            z-index: 2;
+        }
+
+        .bubbles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: rise 15s infinite ease-in;
+        }
+
+        @keyframes rise {
+            to {
+                bottom: 110%;
+                transform: translateX(100px);
+            }
+        }
+
+        .submarine-frame {
+            position: relative;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            z-index: 4;
+        }
+
+        .porthole {
+            background: linear-gradient(135deg, #0a4d68 0%, #1a6b8a 100%);
+            border: 20px solid #2d5f6e;
+            border-radius: 40px;
+            box-shadow: 
+                inset 0 0 50px rgba(0, 0, 0, 0.5),
+                0 20px 60px rgba(0, 0, 0, 0.7),
+                0 0 100px rgba(0, 200, 255, 0.2);
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .porthole::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 200, 255, 0.03) 0px,
+                transparent 2px,
+                transparent 4px,
+                rgba(0, 200, 255, 0.03) 6px
+            );
+            animation: scan 3s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(20px); }
+        }
+
+        .rivets {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: radial-gradient(circle, #5a8a9e 0%, #2d5f6e 100%);
+            border-radius: 50%;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .rivet-tl { top: 30px; left: 30px; }
+        .rivet-tr { top: 30px; right: 30px; }
+        .rivet-bl { bottom: 30px; left: 30px; }
+        .rivet-br { bottom: 30px; right: 30px; }
+
+        .content-box {
+            background: rgba(10, 40, 60, 0.85);
+            border: 3px solid #00d9ff;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 
+                0 0 30px rgba(0, 217, 255, 0.3),
+                inset 0 0 20px rgba(0, 217, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #00d9ff;
+            color: #001a33;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+        }
+
+        .season-badge {
+            position: absolute;
+            top: 80px;
+            right: 20px;
+            background: rgba(0, 217, 255, 0.2);
+            border: 2px solid #00d9ff;
+            color: #00d9ff;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #00d9ff;
+            font-size: 14px;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            color: #ffffff;
+            font-size: 72px;
+            letter-spacing: 8px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+            font-weight: bold;
+        }
+
+        .date {
+            color: #00d9ff;
+            font-size: 18px;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .time-unit {
+            text-align: center;
+        }
+
+        .time-value {
+            background: rgba(0, 217, 255, 0.2);
+            border: 2px solid #00d9ff;
+            border-radius: 10px;
+            padding: 20px 25px;
+            font-size: 48px;
+            color: #00d9ff;
+            font-weight: bold;
+            min-width: 100px;
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+            text-shadow: 0 0 10px rgba(0, 217, 255, 0.8);
+        }
+
+        .time-label {
+            color: #5ac8e8;
+            font-size: 12px;
+            margin-top: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .instruction {
+            color: #5ac8e8;
+            font-size: 11px;
+            margin-top: 15px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .underwater-effect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 26, 51, 0.4) 100%);
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .light-ray {
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            width: 200px;
+            height: 200%;
+            background: linear-gradient(to bottom, 
+                rgba(0, 217, 255, 0.1) 0%, 
+                transparent 50%);
+            transform: translateX(-50%) rotate(10deg);
+            animation: sway 8s ease-in-out infinite;
+            z-index: 3;
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: translateX(-50%) rotate(10deg); }
+            50% { transform: translateX(-50%) rotate(-10deg); }
+        }
+
+        /* Main Content Section */
+        .main-content {
+            min-height: 100vh;
+            padding-top: 120px;
+            background: #ffffff;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(191, 87, 0, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 50px;
+            z-index: 999;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(-100%);
+            transition: all 0.5s ease;
+        }
+
+        .navbar.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .navbar-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .navbar-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .navbar-links a:hover {
+            color: #ffe4c4;
+        }
+
+        /* Content Sections */
+        .section {
+            padding: 100px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            font-size: 48px;
+            color: #bf5700;
+            margin-bottom: 30px;
+        }
+
+        .section p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #about {
+            background: #f8f8f8;
+        }
+
+        #schedule {
+            background: #ffffff;
+        }
+
+        #sponsors {
+            background: #f8f8f8;
+        }
+
+        #faq {
+            background: #ffffff;
+        }
+
+        .sponsor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .sponsor-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .sponsor-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .faq-item {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #bf5700;
+        }
+
+        .faq-item h3 {
+            color: #bf5700;
+            margin-bottom: 10px;
+        }
+
+        .schedule-day {
+            background: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .schedule-day h3 {
+            color: #bf5700;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .schedule-item {
+            display: flex;
+            gap: 20px;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+
+        .schedule-time {
+            font-weight: bold;
+            color: #bf5700;
+            min-width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Landing Section -->
+    <div class="landing-section" id="landingSection">
+        <!-- Video Background Container -->
+        <div class="video-container">
+            <!-- Placeholder animated background (replace with actual video) -->
+            <div class="video-placeholder"></div>
+            
+            <!-- Uncomment this when you have a video file -->
+            
+            <video class="background-video" autoplay loop muted playsinline>
+                <source src="underwater-scene.mp4" type="video/mp4">
+            </video>
+            
+            
+            <!-- Video overlay (tints the video) -->
+            <div class="video-overlay"></div>
+        </div>
+
+        <div class="bubbles" id="bubbles"></div>
+        <div class="underwater-effect"></div>
+        <div class="light-ray"></div>
+        
+        <div class="submarine-frame">
+            <div class="porthole">
+                <div class="rivets rivet-tl"></div>
+                <div class="rivets rivet-tr"></div>
+                <div class="rivets rivet-bl"></div>
+                <div class="rivets rivet-br"></div>
+                
+                <div class="logo">UT 🤘</div>
+                <div class="season-badge">OFFICIAL<br>2026<br>HACKATHON</div>
+                
+                <div class="content-box">
+                    <h1>University of Texas at Austin Presents</h1>
+                    <h2>HOOK 'EM HACKS</h2>
+                    <p class="date">APRIL 18 - 19, 2026</p>
+                    
+                    <div class="countdown">
+                        <div class="time-unit">
+                            <div class="time-value" id="days">08</div>
+                            <div class="time-label">Days</div>
+                        </div>
+                        <div class="time-unit">
+                            <div class="time-value" id="hours">06</div>
+                            <div class="time-label">Hours</div>
+                        </div>
+                        <div class="time-unit">
+                            <div class="time-value" id="minutes">51</div>
+                            <div class="time-label">Minutes</div>
+                        </div>
+                        <div class="time-unit">
+                            <div class="time-value" id="seconds">33</div>
+                            <div class="time-label">Seconds</div>
+                        </div>
+                    </div>
+                    
+                    <p class="instruction">Scroll down or press any key to explore</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-logo">Hook 'em Hacks 🤘</div>
+        <ul class="navbar-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#schedule">Schedule</a></li>
+            <li><a href="#sponsors">Sponsors</a></li>
+            <li><a href="#faq">FAQ</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <section id="about" class="section">
+            <h2>About Hook 'em Hacks</h2>
+            <p>Hook 'em Hacks is the University of Texas at Austin's premier student-run hackathon, bringing together innovative minds from across the country to build, create, and compete over an exciting 24-hour period.</p>
+            <p>Whether you're a seasoned developer or just starting your coding journey, Hook 'em Hacks provides the perfect environment to learn new skills, meet amazing people, and bring your ideas to life. Join us for workshops, mentorship, free meals, and tons of swag!</p>
+            <p>This year's theme celebrates innovation and collaboration, with challenges spanning web development, mobile apps, AI/ML, hardware, and more. Compete for amazing prizes while making lifelong connections with fellow Longhorns and students from around the world.</p>
+        </section>
+
+        <section id="schedule" class="section">
+            <h2>Event Schedule</h2>
+            
+            <div class="schedule-day">
+                <h3>Day 1 - April 18, 2026</h3>
+                <div class="schedule-item">
+                    <div class="schedule-time">9:00 AM</div>
+                    <div>Check-in & Registration</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-time">10:00 AM</div>
+                    <div>Opening Ceremony</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-time">11:00 AM</div>
+                    <div>Hacking Begins!</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-time">12:00 PM</div>
+                    <div>Lunch</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-time">2:00 PM</div>
+                    <div>Workshop: Intro to React</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-time">4:00 PM</div>
+                    <div>Workshop: Machine Learning Basics</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-time">6:00 PM</div>
+                    <div>Dinner</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-time">8:00 PM</div>
+                    <div>Mini Event: Cup Stacking</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-time">12:00 AM</div>
+                    <div>Midnight Snacks</div>
+                </div>
+            </div>
+
+            <div class="schedule-day">
+                <h3>Day 2 - April 19, 2026</h3>
+                <div class="schedule-item">
+                    <div class="schedule-time">8:00 AM</div>
+                    <div>Breakfast</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-time">11:00 AM</div>
+                    <div>Hacking Ends - Submissions Due</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-time">12:00 PM</div>
+                    <div>Lunch & Judging Begins</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-time">2:00 PM</div>
+                    <div>Final Presentations</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-time">4:00 PM</div>
+                    <div>Closing Ceremony & Awards</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-time">5:00 PM</div>
+                    <div>Event Ends</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sponsors" class="section">
+            <h2>Our Sponsors</h2>
+            <p>Hook 'em Hacks wouldn't be possible without the generous support of our sponsors. Interested in sponsoring? Contact us at sponsors@hookemhacks.com</p>
+            
+            <div class="sponsor-grid">
+                <div class="sponsor-card">
+                    <h3>Platinum Tier</h3>
+                    <p>Your Company Here</p>
+                </div>
+                <div class="sponsor-card">
+                    <h3>Gold Tier</h3>
+                    <p>Your Company Here</p>
+                </div>
+                <div class="sponsor-card">
+                    <h3>Silver Tier</h3>
+                    <p>Your Company Here</p>
+                </div>
+                <div class="sponsor-card">
+                    <h3>Bronze Tier</h3>
+                    <p>Your Company Here</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="section">
+            <h2>Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <h3>Who can attend?</h3>
+                <p>Hook 'em Hacks is open to all current college students, regardless of major or experience level. High school students are welcome with parental consent.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>How much does it cost?</h3>
+                <p>Hook 'em Hacks is completely FREE! We'll provide meals, snacks, swag, and everything you need for an amazing weekend of hacking.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>What should I bring?</h3>
+                <p>Bring your laptop, chargers, valid student ID, and enthusiasm! We recommend bringing a sleeping bag if you plan to rest during the event.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Do I need a team?</h3>
+                <p>Teams can have up to 4 people. You can come with a team or form one at the event during our team formation session. Solo hackers are also welcome!</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>What can I build?</h3>
+                <p>Anything! Web apps, mobile apps, hardware projects, games, AI/ML projects—if you can code it, you can build it. We'll have various tracks and prizes.</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const landingSection = document.getElementById('landingSection');
+        const navbar = document.getElementById('navbar');
+        let hasEntered = false;
+        let scrollAccumulator = 0;
+        const SCROLL_THRESHOLD = 100; // Amount of scroll needed to trigger
+
+        // Prevent body scroll initially
+        document.body.classList.add('no-scroll');
+
+        // Create bubbles
+        function createBubble() {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            const size = Math.random() * 60 + 20;
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+            bubble.style.left = Math.random() * 100 + '%';
+            bubble.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            bubble.style.animationDelay = Math.random() * 5 + 's';
+            document.getElementById('bubbles').appendChild(bubble);
+            
+            setTimeout(() => bubble.remove(), 20000);
+        }
+
+        setInterval(createBubble, 1000);
+        for (let i = 0; i < 10; i++) createBubble();
+
+        // Countdown timer
+        const targetDate = new Date('2026-04-18T00:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Hide landing section and show main content
+        function enterMainContent() {
+            if (!hasEntered) {
+                hasEntered = true;
+                document.body.classList.remove('no-scroll');
+                landingSection.classList.add('hidden');
+                navbar.classList.add('visible');
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }
+        }
+
+        // Show landing section when scrolled to top
+        function checkScrollPosition() {
+            if (hasEntered && window.scrollY === 0) {
+                hasEntered = false;
+                document.body.classList.add('no-scroll');
+                landingSection.classList.remove('hidden');
+                navbar.classList.remove('visible');
+                scrollAccumulator = 0;
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }
+        }
+
+        // Scroll event with accumulator for landing page
+        window.addEventListener('wheel', (e) => {
+            if (!hasEntered) {
+                e.preventDefault();
+                scrollAccumulator += Math.abs(e.deltaY);
+                
+                if (scrollAccumulator >= SCROLL_THRESHOLD) {
+                    enterMainContent();
+                }
+            } else if (hasEntered && window.scrollY === 0) {
+                // User is at top and scrolling up - accumulate negative scroll
+                if (e.deltaY < 0) {
+                    e.preventDefault();
+                    scrollAccumulator += Math.abs(e.deltaY);
+                    
+                    if (scrollAccumulator >= SCROLL_THRESHOLD) {
+                        hasEntered = false;
+                        document.body.classList.add('no-scroll');
+                        landingSection.classList.remove('hidden');
+                        navbar.classList.remove('visible');
+                        scrollAccumulator = 0;
+                    }
+                } else {
+                    scrollAccumulator = 0;
+                }
+            } else {
+                scrollAccumulator = 0;
+            }
+        }, { passive: false });
+
+        // Regular scroll event for checking if at top
+        window.addEventListener('scroll', () => {
+            if (hasEntered && window.scrollY > 0) {
+                scrollAccumulator = 0; // Reset accumulator when scrolling down
+            }
+        });
+
+        // Mouse click on landing section
+        landingSection.addEventListener('click', (e) => {
+            enterMainContent();
+        });
+
+        // Key press event
+        document.addEventListener('keydown', (e) => {
+            if (!hasEntered) {
+                enterMainContent();
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('.navbar-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
