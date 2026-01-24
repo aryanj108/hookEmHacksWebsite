@@ -28,8 +28,12 @@
             left: 0;
             width: 100%;
             height: 100vh;
-            background: linear-gradient(180deg, #001a33 0%, #003d5c 50%, #004d73 100%);
+            background-image: url('testImage.png');
+            /*background: linear-gradient(180deg, #001a33 0%, #003d5c 50%, #004d73 100%);*/
             z-index: 1000;
+            background-size: cover;         
+            background-position: center;      
+            background-repeat: no-repeat;     
             transition: opacity 0.8s ease, visibility 0.8s ease;
         }
 
@@ -192,13 +196,13 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: repeating-linear-gradient(
+            /*background: repeating-linear-gradient(
                 0deg,
                 rgba(0, 200, 255, 0.03) 0px,
                 transparent 2px,
                 transparent 4px,
                 rgba(0, 200, 255, 0.03) 6px
-            );
+            );*/
             animation: scan 3s linear infinite;
             z-index: 3;
             pointer-events: none;
