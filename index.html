@@ -548,42 +548,49 @@
         /* Hero Section with UT Tower and Banner */
         .hero-section {
             min-height: 100vh;
-            padding: 120px 50px 80px;
+            padding: 120px 0 80px;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             position: relative;
             z-index: 10;
+            overflow: hidden;
         }
 
-        .hero-banner {
-            width: 100%;
-            max-width: 1200px;
-            margin-bottom: 60px;
+        .hero-tower {
+            position: absolute;
+            left: 0;
+            max-width: 450px;
+            width: 30vw;
+            min-width: 280px;
+            z-index: 1;
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            border: 3px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 217, 255, 0.3);
+            border: 3px solid rgba(0, 217, 255, 0.3);
         }
 
-        .hero-banner img {
+        .hero-tower img {
             width: 100%;
             height: auto;
             display: block;
         }
 
-        .hero-tower {
-            max-width: 400px;
-            width: 100%;
+        .hero-banner {
+            position: relative;
+            max-width: 600px;
+            width: 45vw;
+            min-width: 350px;
+            margin: 0 auto;
+            z-index: 2;
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 217, 255, 0.3);
-            border: 3px solid rgba(0, 217, 255, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 3px solid rgba(255, 255, 255, 0.2);
             animation: float 6s ease-in-out infinite;
         }
 
-        .hero-tower img {
+        .hero-banner img {
             width: 100%;
             height: auto;
             display: block;
@@ -594,29 +601,40 @@
                 transform: translateY(0px);
             }
             50% {
-                transform: translateY(-20px);
+                transform: translateY(-30px);
             }
         }
 
-        .hero-text {
-            text-align: center;
-            margin-top: 40px;
-            color: #ffffff;
+        /* Mobile - banner overlays tower, no vertical stacking */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 100px 20px 60px;
+            }
+            
+            .hero-tower {
+                width: 35vw;
+                min-width: 200px;
+                max-width: 280px;
+            }
+            
+            .hero-banner {
+                width: 55vw;
+                min-width: 280px;
+                margin-left: auto;
+                margin-right: 20px;
+            }
         }
 
-        .hero-text h2 {
-            font-size: 42px;
-            color: #00d9ff;
-            margin-bottom: 20px;
-            text-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
-        }
-
-        .hero-text p {
-            font-size: 20px;
-            color: #ffffff;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
+        @media (max-width: 480px) {
+            .hero-tower {
+                width: 40vw;
+                min-width: 150px;
+            }
+            
+            .hero-banner {
+                width: 60vw;
+                min-width: 200px;
+            }
         }
     </style>
 </head>
@@ -700,15 +718,17 @@
     <div class="main-content">
     <!-- Hero Section with UT Tower and Banner -->
     <section class="hero-section">
-        <!-- Banner Image -->
-        <div class="hero-banner">
-            <img src="../assets/banner_placeholder.jpg" alt="Hook 'em Hacks Banner">
-        </div>
-        
-        <!-- UT Tower Image -->
+        <!-- UT Tower on the left -->
         <div class="hero-tower">
             <img src="../assets/ut_tower_placeholder.png" alt="UT Tower">
         </div>
+        
+        <!-- Banner in the center-right (floating) -->
+        <div class="hero-banner">
+            <img src="../assets/banner_placeholder.jpg" alt="Hook 'em Hacks Banner">
+        </div>
+    </section>
+
         <section id="about" class="section">
             <h2>About Hook 'em Hacks</h2>
             <p>Hook 'em Hacks is the University of Texas at Austin's premier student-run hackathon, bringing together innovative minds from across the country to build, create, and compete over an exciting 24-hour period.</p>
