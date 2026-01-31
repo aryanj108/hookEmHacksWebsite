@@ -436,7 +436,7 @@
             border-radius: 15px;
             border: 2px solid rgba(255, 255, 255, 0.2);
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .faq-item:hover {
@@ -469,7 +469,7 @@
         .faq-toggle {
             font-size: 14px;
             color: #ffffff;
-            transition: transform 0.3s ease;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             flex-shrink: 0;
         }
 
@@ -486,7 +486,11 @@
 
         .faq-item.active .faq-answer {
             max-height: 500px;
-            padding: 0 30px 25px 69px;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                            padding 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                            opacity 0.5s ease; 
+                padding: 0 30px 0 69px;
+                opacity: 0;
         }
 
         .faq-answer p {
