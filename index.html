@@ -349,7 +349,6 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
             opacity: 0;
             transform: translateY(-100%);
             transition: all 0.5s ease;
@@ -641,9 +640,87 @@
                 min-width: 200px;
             }
         }
+
+        /* Hide default scrollbar */
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        body {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        /* Custom Scrollbar Container */
+        .custom-scrollbar {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 60px;
+            height: 100vh;
+            background: rgba(100, 50, 150, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 998;
+            pointer-events: none;
+        }
+
+        /* Scrollbar Track */
+        .custom-scrollbar-track {
+            position: absolute;
+            right: 20px;
+            top: 10%;
+            width: 4px;
+            height: 80%;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+
+        /* Bear Icon Thumb */
+        .custom-scrollbar-thumb {
+            position: absolute;
+            right: 5px;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: transform 0.1s ease;
+            z-index: 999;
+        }
+
+        .custom-scrollbar-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        .custom-scrollbar-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        /* Progress indicator line */
+        .scroll-progress {
+            position: absolute;
+            right: 20px;
+            top: 10%;
+            width: 4px;
+            height: 0%;
+            background: linear-gradient(to bottom, #bf5700, #ff8c42);
+            border-radius: 2px;
+            transition: height 0.1s ease;
+        }
     </style>
 </head>
 <body>
+    <!-- Custom Scrollbar -->
+    <div class="custom-scrollbar">
+        <div class="custom-scrollbar-track"></div>
+        <div class="scroll-progress"></div>
+        <div class="custom-scrollbar-thumb" id="scrollThumb">
+            <img src="../assets/bear-icon.png" alt="Scroll Bear">
+        </div>
+    </div>
+
     <!-- Landing Section -->
     <div class="landing-section" id="landingSection">
         <!-- Background elements -->
@@ -962,6 +1039,32 @@
         updateCountdown();
         setInterval(updateCountdown, 1000);
 
+        // Scroll direction detection for navbar
+        let lastScrollTop = 0;
+        let scrollThreshold = 100; // Show navbar after scrolling down this many pixels
+
+        window.addEventListener('scroll', () => {
+            if (!hasEntered) return; // Don't show navbar on landing page
+            
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Only show/hide navbar after scrolling past threshold
+            if (scrollTop > scrollThreshold) {
+                if (scrollTop < lastScrollTop) {
+                    // Scrolling UP - show navbar
+                    navbar.classList.add('visible');
+                } else {
+                    // Scrolling DOWN - hide navbar
+                    navbar.classList.remove('visible');
+                }
+            } else {
+                // At top of page - hide navbar
+                navbar.classList.remove('visible');
+            }
+            
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Prevent negative values
+        }, false);
+
         // Parallax scrolling effect for ocean layers
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
@@ -993,7 +1096,7 @@
                 hasEntered = true;
                 document.body.classList.remove('no-scroll');
                 landingSection.classList.add('hidden');
-                navbar.classList.add('visible');
+                //navbar.classList.add('visible');
                 window.scrollTo({ top: 0, behavior: 'instant' });
             }
         }
@@ -1081,6 +1184,117 @@
                 }
             });
         });
+
+        // Custom Scrollbar with Bear - Real-time dragging
+        const scrollThumb = document.getElementById('scrollThumb');
+        const scrollProgress = document.querySelector('.scroll-progress');
+        const customScrollbar = document.querySelector('.custom-scrollbar');
+        let isDragging = false;
+        let startY = 0;
+        let startScrollTop = 0;
+
+        // Update thumb position based on scroll
+        function updateScrollThumb() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const scrollTop = window.pageYOffset;
+            
+            // Calculate scroll percentage
+            const scrollPercentage = scrollTop / (documentHeight - windowHeight);
+            
+            // Calculate thumb position (10% to 90% of viewport height to stay within track)
+            const trackHeight = windowHeight * 0.8; // 80% of viewport (track is 80% high)
+            const thumbTop = (windowHeight * 0.1) + (scrollPercentage * trackHeight);
+            
+            // Update thumb position only if not dragging
+            if (!isDragging) {
+                scrollThumb.style.top = thumbTop + 'px';
+            }
+            
+            // Update progress bar
+            scrollProgress.style.height = (scrollPercentage * 80) + '%';
+            
+            // Hide scrollbar on landing page
+            if (!hasEntered) {
+                customScrollbar.style.opacity = '0';
+                customScrollbar.style.pointerEvents = 'none';
+            } else {
+                customScrollbar.style.opacity = '1';
+                customScrollbar.style.pointerEvents = 'auto';
+            }
+        }
+
+        // Mouse down on thumb - start dragging
+        scrollThumb.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startY = e.clientY;
+            startScrollTop = window.pageYOffset;
+            document.body.style.userSelect = 'none';
+            scrollThumb.style.cursor = 'grabbing';
+            e.preventDefault();
+        });
+
+        // Mouse move - drag thumb and scroll in real-time
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const maxScroll = documentHeight - windowHeight;
+            
+            // Calculate how much the mouse has moved
+            const deltaY = e.clientY - startY;
+            
+            // Calculate track height (80% of viewport)
+            const trackHeight = windowHeight * 0.8;
+            
+            // Convert pixel movement to scroll amount
+            const scrollDelta = (deltaY / trackHeight) * maxScroll;
+            
+            // Calculate new scroll position
+            const newScrollTop = Math.max(0, Math.min(maxScroll, startScrollTop + scrollDelta));
+            
+            // Update thumb position immediately
+            const scrollPercentage = newScrollTop / maxScroll;
+            const thumbTop = (windowHeight * 0.1) + (scrollPercentage * trackHeight);
+            scrollThumb.style.top = thumbTop + 'px';
+            
+            // Scroll the page in real-time
+            window.scrollTo({ top: newScrollTop, behavior: 'auto' });
+            
+            e.preventDefault();
+        });
+
+        // Mouse up - stop dragging
+        document.addEventListener('mouseup', () => {
+            if (isDragging) {
+                isDragging = false;
+                document.body.style.userSelect = '';
+                scrollThumb.style.cursor = 'pointer';
+            }
+        });
+
+        // Prevent dragging outside window
+        document.addEventListener('mouseleave', () => {
+            if (isDragging) {
+                isDragging = false;
+                document.body.style.userSelect = '';
+                scrollThumb.style.cursor = 'pointer';
+            }
+        });
+
+        // Update on scroll (from mouse wheel or other sources)
+        window.addEventListener('scroll', updateScrollThumb);
+
+        // Initial update
+        updateScrollThumb();
+
+        // Update when entering main content
+        const originalEnterMainContent = enterMainContent;
+        enterMainContent = function() {
+            originalEnterMainContent();
+            setTimeout(updateScrollThumb, 100);
+        };
     </script>
 </body>
 </html>
