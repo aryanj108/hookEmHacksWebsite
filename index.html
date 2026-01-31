@@ -571,9 +571,11 @@
         }
 
         .hero-tower img {
-            width: 100%;
+            width: 150%;
+            height: 70vh;
             height: auto;
             display: block;
+            object-fit: contain 
         }
 
         .hero-banner {
@@ -997,10 +999,17 @@
         window.addEventListener('wheel', (e) => {
             if (!hasEntered) {
                 e.preventDefault();
-                scrollAccumulator += Math.abs(e.deltaY);
                 
-                if (scrollAccumulator >= SCROLL_THRESHOLD) {
-                    enterMainContent();
+                // Only respond to downward scrolling (positive deltaY)
+                if (e.deltaY > 0) {
+                    scrollAccumulator += e.deltaY;
+                    
+                    if (scrollAccumulator >= SCROLL_THRESHOLD) {
+                        enterMainContent();
+                    }
+                } else {
+                    // Reset accumulator if scrolling up
+                    scrollAccumulator = 0;
                 }
             } else if (hasEntered && window.scrollY === 0) {
                 // User is at top and scrolling up
