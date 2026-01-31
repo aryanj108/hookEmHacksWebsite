@@ -288,13 +288,14 @@
         .layer-deep-ocean {
             background: linear-gradient(180deg, 
                 #001a33 0%, 
-                #002b4d 25%,
-                #001a33 50%,
-                #000d1a 75%,
-                #00050a 100%);
+                #002244 15%,
+                #003355 30%,
+                #004466 45%,
+                #003d5c 60%,
+                #002244 75%,
+                #001a33 90%,
+                #001020 100%);
             z-index: 1;
-            height: 100vh; 
-            width: 100%;
         }
 
         .layer-mid-ocean {
@@ -605,6 +606,7 @@
         <div class="parallax-layer layer-deep-ocean"></div>
         <div class="parallax-layer layer-mid-ocean"></div>
         <div class="parallax-layer layer-shallow-ocean"></div>
+        <div class="ocean-bubbles" id="oceanBubbles"></div>
     </div>
 
     <!-- Navigation Bar -->
@@ -620,7 +622,6 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <div class="ocean-bubbles" id="oceanBubbles"></div>
         <section id="about" class="section">
             <h2>About Hook 'em Hacks</h2>
             <p>Hook 'em Hacks is the University of Texas at Austin's premier student-run hackathon, bringing together innovative minds from across the country to build, create, and compete over an exciting 24-hour period.</p>
@@ -809,24 +810,17 @@
 
         // Create bubbles for ocean background
         function createOceanBubble() {
-            const container = document.getElementById('oceanBubbles');
-            if (!container) return;
-
             const bubble = document.createElement('div');
             bubble.className = 'bubble';
-            
-            const size = Math.random() * 40 + 10;
+            const size = Math.random() * 60 + 20;
             bubble.style.width = size + 'px';
             bubble.style.height = size + 'px';
             bubble.style.left = Math.random() * 100 + '%';
+            bubble.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            bubble.style.animationDelay = Math.random() * 5 + 's';
+            document.getElementById('oceanBubbles').appendChild(bubble);
             
-            // Start bubbles from the bottom of the current scroll view or absolute bottom
-            bubble.style.bottom = "-50px"; 
-            
-            bubble.style.animationDuration = (Math.random() * 10 + 5) + 's';
-            container.appendChild(bubble);
-            
-            setTimeout(() => bubble.remove(), 12000);
+            setTimeout(() => bubble.remove(), 20000);
         }
 
         setInterval(createBubble, 1000);
