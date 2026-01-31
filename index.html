@@ -14,22 +14,21 @@
         body {
             font-family: 'Courier New', monospace;
             overflow-x: hidden;
-            background: #0a0a0a;
+            background: #001a33;
         }
 
         body.no-scroll {
             overflow: hidden;
         }
 
-        /* Landing Section - Submarine Theme with Video */
+        /* Landing Section - Submarine Theme */
         .landing-section {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
-            background-image: url('testImage.png');
-            /*background: linear-gradient(180deg, #001a33 0%, #003d5c 50%, #004d73 100%);*/
+            background-image: url('../assets/testImage.png');
             z-index: 1000;
             background-size: cover;         
             background-position: center;      
@@ -41,63 +40,6 @@
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-        }
-
-        /* Video Background Container */
-        .video-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        /* Video placeholder with animated gradient */
-        .video-placeholder {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, 
-                #003d5c 0%, 
-                #004d73 25%, 
-                #005a8a 50%, 
-                #004d73 75%, 
-                #003d5c 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .background-video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            transform: translate(-50%, -50%);
-            object-fit: cover;
-        }
-
-        /* Video overlay to darken/tint */
-        .video-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 26, 51, 0.2);
         }
 
         .bubbles {
@@ -196,13 +138,6 @@
             left: 0;
             right: 0;
             bottom: 0;
-            /*background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 200, 255, 0.03) 0px,
-                transparent 2px,
-                transparent 4px,
-                rgba(0, 200, 255, 0.03) 6px
-            );*/
             animation: scan 3s linear infinite;
             z-index: 3;
             pointer-events: none;
@@ -233,36 +168,6 @@
             text-align: center;
             position: relative;
             z-index: 2;
-        }
-
-        .logo {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: #00d9ff;
-            color: #001a33;
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 18px;
-            box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
-            z-index: 4;
-        }
-
-        .season-badge {
-            position: absolute;
-            top: 80px;
-            right: 20px;
-            background: rgba(0, 217, 255, 0.2);
-            border: 2px solid #00d9ff;
-            color: #00d9ff;
-            padding: 15px;
-            border-radius: 10px;
-            font-weight: bold;
-            text-align: center;
-            font-size: 14px;
-            backdrop-filter: blur(10px);
-            z-index: 4;
         }
 
         h1 {
@@ -357,11 +262,74 @@
             50% { transform: translateX(-50%) rotate(-10deg); }
         }
 
+        /* Parallax Ocean Background - FIXED behind main content */
+        .ocean-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .parallax-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 300vh;
+            background-size: cover;
+            background-position: center top;
+            background-repeat: no-repeat;
+            pointer-events: none;
+        }
+
+        .layer-deep-ocean {
+            background: linear-gradient(180deg, 
+                #001a33 0%, 
+                #002244 15%,
+                #003355 30%,
+                #004466 45%,
+                #003d5c 60%,
+                #002244 75%,
+                #001a33 90%,
+                #001020 100%);
+            z-index: 1;
+        }
+
+        .layer-mid-ocean {
+            background: radial-gradient(ellipse at 30% 20%, rgba(0, 100, 150, 0.3) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 60%, rgba(0, 80, 120, 0.4) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 90%, rgba(0, 60, 100, 0.3) 0%, transparent 50%);
+            background-size: 100% 100vh;
+            z-index: 2;
+        }
+
+        .layer-shallow-ocean {
+            background: linear-gradient(180deg,
+                rgba(0, 150, 200, 0.2) 0%,
+                rgba(0, 100, 150, 0.15) 25%,
+                transparent 50%);
+            z-index: 3;
+        }
+
+        /* Animated bubbles for main content */
+        .ocean-bubbles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 4;
+        }
+
         /* Main Content Section */
         .main-content {
-            min-height: 100vh;
+            min-height: 300vh;
             padding-top: 120px;
-            background: #ffffff;
+            position: relative;
+            z-index: 10;
         }
 
         /* Navigation Bar */
@@ -391,7 +359,7 @@
         .navbar-logo {
             font-size: 24px;
             font-weight: bold;
-            color: #ffffff;
+            color: #bf5700;
         }
 
         .navbar-links {
@@ -408,7 +376,7 @@
         }
 
         .navbar-links a:hover {
-            color: #ffe4c4;
+            color: #8b4000;
         }
 
         /* Content Sections */
@@ -416,6 +384,10 @@
             padding: 100px 50px;
             max-width: 1200px;
             margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
         }
 
         .section h2 {
@@ -429,22 +401,6 @@
             line-height: 1.8;
             color: #333;
             margin-bottom: 20px;
-        }
-
-        #about {
-            background: #f8f8f8;
-        }
-
-        #schedule {
-            background: #ffffff;
-        }
-
-        #sponsors {
-            background: #f8f8f8;
-        }
-
-        #faq {
-            background: #ffffff;
         }
 
         .sponsor-grid {
@@ -515,7 +471,7 @@
 <body>
     <!-- Landing Section -->
     <div class="landing-section" id="landingSection">
-        <!-- Background elements (NOT video - video is inside porthole) -->
+        <!-- Background elements -->
         <div class="bubbles" id="bubbles"></div>
         <div class="underwater-effect"></div>
         <div class="light-ray"></div>
@@ -528,7 +484,7 @@
                     
                     <!-- Video effect: PLACEHOLDER -->
                     <video class="porthole-video" autoplay loop muted playsinline>
-                        <source src="underwater-scene.mp4" type="video/mp4">
+                        <source src="../assets/underwater-scene.mp4" type="video/mp4">
                     </video>
                 </div>
 
@@ -536,11 +492,6 @@
                 <div class="rivets rivet-tr"></div>
                 <div class="rivets rivet-bl"></div>
                 <div class="rivets rivet-br"></div>
-                
-                <!--
-                <div class="logo">UT 🤘</div>
-                <div class="season-badge">OFFICIAL<br>2026<br>HACKATHON</div>
-                -->
                 
                 <div class="content-box">
                     <h1>University of Texas at Austin Presents</h1>
@@ -570,6 +521,14 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Ocean Background for Main Content (Fixed with Parallax) -->
+    <div class="ocean-background" id="oceanBackground">
+        <div class="parallax-layer layer-deep-ocean"></div>
+        <div class="parallax-layer layer-mid-ocean"></div>
+        <div class="parallax-layer layer-shallow-ocean"></div>
+        <div class="ocean-bubbles" id="oceanBubbles"></div>
     </div>
 
     <!-- Navigation Bar -->
@@ -721,14 +680,15 @@
     <script>
         const landingSection = document.getElementById('landingSection');
         const navbar = document.getElementById('navbar');
+        const oceanBackground = document.getElementById('oceanBackground');
         let hasEntered = false;
         let scrollAccumulator = 0;
-        const SCROLL_THRESHOLD = 100; // Amount of scroll needed to trigger
+        const SCROLL_THRESHOLD = 100;
 
         // Prevent body scroll initially
         document.body.classList.add('no-scroll');
 
-        // Create bubbles
+        // Create bubbles for landing section
         function createBubble() {
             const bubble = document.createElement('div');
             bubble.className = 'bubble';
@@ -743,8 +703,26 @@
             setTimeout(() => bubble.remove(), 20000);
         }
 
+        // Create bubbles for ocean background
+        function createOceanBubble() {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            const size = Math.random() * 60 + 20;
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+            bubble.style.left = Math.random() * 100 + '%';
+            bubble.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            bubble.style.animationDelay = Math.random() * 5 + 's';
+            document.getElementById('oceanBubbles').appendChild(bubble);
+            
+            setTimeout(() => bubble.remove(), 20000);
+        }
+
         setInterval(createBubble, 1000);
         for (let i = 0; i < 10; i++) createBubble();
+
+        setInterval(createOceanBubble, 1000);
+        for (let i = 0; i < 10; i++) createOceanBubble();
 
         // Countdown timer
         const targetDate = new Date('2026-04-18T00:00:00').getTime();
@@ -767,6 +745,31 @@
         updateCountdown();
         setInterval(updateCountdown, 1000);
 
+        // Parallax scrolling effect for ocean layers
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            
+            // Get all parallax elements
+            const deepOcean = document.querySelector('.layer-deep-ocean');
+            const midOcean = document.querySelector('.layer-mid-ocean');
+            const shallowOcean = document.querySelector('.layer-shallow-ocean');
+            const oceanBubblesEl = document.querySelector('.ocean-bubbles');
+            
+            // Apply different scroll speeds for depth effect
+            if (deepOcean) {
+                deepOcean.style.transform = `translateY(${scrolled * 0.2}px)`;
+            }
+            if (midOcean) {
+                midOcean.style.transform = `translateY(${scrolled * 0.4}px)`;
+            }
+            if (shallowOcean) {
+                shallowOcean.style.transform = `translateY(${scrolled * 0.6}px)`;
+            }
+            if (oceanBubblesEl) {
+                oceanBubblesEl.style.transform = `translateY(${scrolled * 0.7}px)`;
+            }
+        });
+
         // Hide landing section and show main content
         function enterMainContent() {
             if (!hasEntered) {
@@ -774,18 +777,6 @@
                 document.body.classList.remove('no-scroll');
                 landingSection.classList.add('hidden');
                 navbar.classList.add('visible');
-                window.scrollTo({ top: 0, behavior: 'instant' });
-            }
-        }
-
-        // Show landing section when scrolled to top
-        function checkScrollPosition() {
-            if (hasEntered && window.scrollY === 0) {
-                hasEntered = false;
-                document.body.classList.add('no-scroll');
-                landingSection.classList.remove('hidden');
-                navbar.classList.remove('visible');
-                scrollAccumulator = 0;
                 window.scrollTo({ top: 0, behavior: 'instant' });
             }
         }
@@ -800,7 +791,7 @@
                     enterMainContent();
                 }
             } else if (hasEntered && window.scrollY === 0) {
-                // User is at top and scrolling up - accumulate negative scroll
+                // User is at top and scrolling up
                 if (e.deltaY < 0) {
                     e.preventDefault();
                     scrollAccumulator += Math.abs(e.deltaY);
@@ -823,7 +814,7 @@
         // Regular scroll event for checking if at top
         window.addEventListener('scroll', () => {
             if (hasEntered && window.scrollY > 0) {
-                scrollAccumulator = 0; // Reset accumulator when scrolling down
+                scrollAccumulator = 0;
             }
         });
 
