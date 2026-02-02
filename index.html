@@ -1401,6 +1401,7 @@
         // Scroll direction detection for navbar
         let lastScrollTop = 0;
         let scrollThreshold = 100; // Show navbar after scrolling down this many pixels
+        let isScrollingFromClick = false; // Track if scroll is from nav click
 
         window.addEventListener('scroll', () => {
             if (!hasEntered) return; // Don't show navbar on landing page
@@ -1409,12 +1410,15 @@
             
             // Only show/hide navbar after scrolling past threshold
             if (scrollTop > scrollThreshold) {
-                if (scrollTop < lastScrollTop) {
-                    // Scrolling UP - show navbar
-                    navbar.classList.add('visible');
-                } else {
-                    // Scrolling DOWN - hide navbar
-                    navbar.classList.remove('visible');
+                // Don't hide navbar if scrolling is from a navigation click
+                if (!isScrollingFromClick) {
+                    if (scrollTop < lastScrollTop) {
+                        // Scrolling UP - show navbar
+                        navbar.classList.add('visible');
+                    } else {
+                        // Scrolling DOWN - hide navbar
+                        navbar.classList.remove('visible');
+                    }
                 }
             } else {
                 // At top of page - hide navbar
@@ -1522,7 +1526,19 @@
                 e.preventDefault();
                 const targetId = link.getAttribute('href');
                 const targetSection = document.querySelector(targetId);
+                
+                // Set flag to prevent navbar from hiding during smooth scroll
+                isScrollingFromClick = true;
+                
+                // Keep navbar visible during navigation
+                navbar.classList.add('visible');
+                
                 targetSection.scrollIntoView({ behavior: 'smooth' });
+                
+                // Reset flag after scroll completes (smooth scroll takes 1 second)
+                setTimeout(() => {
+                    isScrollingFromClick = false;
+                }, 1000);
             });
         });
 
