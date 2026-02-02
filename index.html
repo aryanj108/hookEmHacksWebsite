@@ -778,6 +778,30 @@
             display: block;
             object-fit: cover;
         }
+
+        .tracks-image-section {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+        }
+
+        .tracks-image-container {
+            width: 80%;
+            height: auto;
+            overflow: hidden;
+        }
+
+        .tracks-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -904,9 +928,9 @@
         </section>
 
         <!-- Full-width Tracks Image Placeholder -->
-        <section class="about-image-section">
-            <div class="about-image-container">
-                <img src="../assets/tracks_bevo_placeholder.png" alt="Tracks fro Hook 'em Hacks">
+        <section class="tracks-image-section">
+            <div class="tracks-image-container">
+                <img src="../assets/tracks_bevo_placeholder.png" alt="Tracks for Hook 'em Hacks">
             </div>
         </section>
 
