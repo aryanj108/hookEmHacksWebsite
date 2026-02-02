@@ -361,9 +361,25 @@
         }
 
         .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px; 
             font-size: 24px;
             font-weight: bold;
             color: #ffffff;
+        }
+
+        .navbar-logo-img {
+            width: 40px; 
+            height: 40px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        /* Hover effect */
+        .navbar-logo:hover .navbar-logo-img {
+            transform: scale(1.1);
+            transition: transform 0.3s ease;
         }
 
         .navbar-links {
@@ -1074,12 +1090,16 @@
 
     <!-- Navigation Bar -->
     <nav class="navbar" id="navbar">
-        <div class="navbar-logo">Hook 'em Hacks</div>
+        <div class="navbar-logo">
+            <img src="../assets/scroll_asset.jpg" alt="Hook 'em Hacks Logo" class="navbar-logo-img">
+            <span>Hook 'em Hacks</span>
+        </div>
         <ul class="navbar-links">
             <li><a href="#about">About</a></li>
             <li><a href="#schedule">Schedule</a></li>
-            <li><a href="#sponsors">Sponsors</a></li>
             <li><a href="#faq">FAQ</a></li>
+            <li><a href="#sponsors">Sponsors</a></li>
+            <li><a href="#team">Meet the Team</a></li>
         </ul>
     </nav>
 
