@@ -754,6 +754,30 @@
             border-radius: 2px;
             transition: height 0.1s ease;
         }
+
+        .about-image-section {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+        }
+
+        .about-image-container {
+            width: 80%;
+            height: auto;
+            overflow: hidden;
+        }
+
+        .about-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -841,26 +865,49 @@
 
 
 
-    <!-- Main Content -->
-    <div class="main-content">
-    <!-- Hero Section with UT Tower and Banner -->
-    <section class="hero-section">
-        <!-- UT Tower on the left -->
-        <div class="hero-tower">
-            <img src="../assets/ut_tower_underwater_placeholder.png" alt="UT Tower">
-        </div>
-        
-        <!-- Banner in the center-right (floating) -->
-        <div class="hero-banner">
-            <img src="../assets/banner_underwater_placeholder.png" alt="Hook 'em Hacks Banner">
-        </div>
-    </section>
+        <!-- Main Content -->
+        <div class="main-content">
+        <!-- Hero Section with UT Tower and Banner -->
+        <section class="hero-section">
+            <!-- UT Tower on the left -->
+            <div class="hero-tower">
+                <img src="../assets/ut_tower_underwater_placeholder.png" alt="UT Tower">
+            </div>
+            
+            <!-- Banner in the center-right (floating) -->
+            <div class="hero-banner">
+                <img src="../assets/banner_underwater_placeholder.png" alt="Hook 'em Hacks Banner">
+            </div>
+        </section>
 
         <section id="about" class="section">
             <h2>About Hook 'em Hacks</h2>
             <p>Hook 'em Hacks is the University of Texas at Austin's premier student-run hackathon, bringing together innovative minds from across the country to build, create, and compete over an exciting 24-hour period.</p>
             <p>Whether you're a seasoned developer or just starting your coding journey, Hook 'em Hacks provides the perfect environment to learn new skills, meet amazing people, and bring your ideas to life. Join us for workshops, mentorship, free meals, and tons of swag!</p>
             <p>This year's theme celebrates innovation and collaboration, with challenges spanning web development, mobile apps, AI/ML, hardware, and more. Compete for amazing prizes while making lifelong connections with fellow Longhorns and students from around the world.</p>
+        </section>
+
+        <!-- Full-width About Image Placeholder -->
+        <section class="about-image-section">
+            <div class="about-image-container">
+                <img src="../assets/about_section_placeholder.png" alt="About Hook 'em Hacks">
+            </div>
+        </section>
+
+
+        <section id="tracks" class="section">
+            <h2>Tracks</h2>
+            <p>Fintech</p>
+            <p>AI</p>
+            <p>Hardware</p>
+            <p>Mobile Dev</p>
+        </section>
+
+        <!-- Full-width Tracks Image Placeholder -->
+        <section class="about-image-section">
+            <div class="about-image-container">
+                <img src="../assets/tracks_bevo_placeholder.png" alt="Tracks fro Hook 'em Hacks">
+            </div>
         </section>
 
         <section id="schedule" class="section">
@@ -935,6 +982,62 @@
             </div>
         </section>
 
+        <section id="faq" class="section">
+            <h2>Frequently Asked Questions</h2>
+            
+            <div class="faq-accordion">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Who can attend?</h3>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Hook 'em Hacks is open to all current college students, regardless of major or experience level. High school students are welcome with parental consent.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How much does it cost?</h3>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Hook 'em Hacks is completely FREE! We'll provide meals, snacks, swag, and everything you need for an amazing weekend of hacking.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What should I bring?</h3>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Bring your laptop, chargers, valid student ID, and enthusiasm! We recommend bringing a sleeping bag if you plan to rest during the event.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Do I need a team?</h3>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Teams can have up to 4 people. You can come with a team or form one at the event during our team formation session. Solo hackers are also welcome!</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What can I build?</h3>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Anything! Web apps, mobile apps, hardware projects, games, AI/ML projects—if you can code it, you can build it. We'll have various tracks and prizes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="sponsors" class="section">
             <h2>Our Sponsors</h2>
             <p>Hook 'em Hacks wouldn't be possible without the generous support of our sponsors. Interested in sponsoring? Contact us at sponsors@hookemhacks.com</p>
@@ -958,62 +1061,6 @@
                 </div>
             </div>
         </section>
-
-    <section id="faq" class="section">
-        <h2>Frequently Asked Questions</h2>
-        
-        <div class="faq-accordion">
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>Who can attend?</h3>
-                    <span class="faq-toggle">▼</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Hook 'em Hacks is open to all current college students, regardless of major or experience level. High school students are welcome with parental consent.</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>How much does it cost?</h3>
-                    <span class="faq-toggle">▼</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Hook 'em Hacks is completely FREE! We'll provide meals, snacks, swag, and everything you need for an amazing weekend of hacking.</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>What should I bring?</h3>
-                    <span class="faq-toggle">▼</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Bring your laptop, chargers, valid student ID, and enthusiasm! We recommend bringing a sleeping bag if you plan to rest during the event.</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>Do I need a team?</h3>
-                    <span class="faq-toggle">▼</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Teams can have up to 4 people. You can come with a team or form one at the event during our team formation session. Solo hackers are also welcome!</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>What can I build?</h3>
-                    <span class="faq-toggle">▼</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Anything! Web apps, mobile apps, hardware projects, games, AI/ML projects—if you can code it, you can build it. We'll have various tracks and prizes.</p>
-                </div>
-            </div>
-        </div>
-    </section>
     </div>
 
     <script>
